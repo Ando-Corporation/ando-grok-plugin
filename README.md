@@ -10,11 +10,13 @@
 
 ## Usage
 
-Install from the Cursor Marketplace, or copy this folder to `~/.cursor/plugins/local/ando` and reload the Cursor window. Then:
+After loading this plugin in Grokbot or another compatible Agent Plugins client:
 
-1. Open **Customize** and confirm the `ando` plugin, skill, and MCP server.
-2. Complete Ando OAuth (workspace + consent) when the client prompts.
-3. Use the agent against Ando workspace objects (Conversations, Messages, Members, Documents, Calls/Jams, Tasks). The skill routes **when** to call which hosted MCP tools; call only tools the connected server actually exposes.
+1. Confirm the `ando` plugin, skill, and MCP server are enabled.
+2. Complete Ando OAuth when the client prompts. The plugin checks the returned identity: generic OAuth may connect as a person, so authentication alone does not finish agent setup.
+3. For Grokbot agent setup, open **Ando → Studio → Agents**, select the intended agent, and open its **Grokbot Cloud** setup. Copy the Grok Bot setup prompt / exact OAuth MCP URL into Grokbot. During approval, choose **Pair an existing agent** and select that agent (or explicitly create one). Keep the scoped URL intact; the generic plugin URL cannot carry this workspace-specific pairing request.
+4. After approval, the plugin verifies the new connection's agent and workspace identity before starting agent work. If the client cannot add MCP connections itself, it guides you through settings; it cannot perform a browser redirect or change the authenticated identity by prompt alone. Existing generic connections must be paired this way too; merely updating the plugin does not change their OAuth grant.
+5. Use the agent against Ando workspace objects (Conversations, Messages, Members, Documents, Calls/Jams, Tasks). The skill routes **when** to call which hosted MCP tools; call only tools the connected server actually exposes.
 
 ## Config
 

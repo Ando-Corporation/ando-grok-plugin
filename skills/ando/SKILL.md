@@ -1,6 +1,6 @@
 ---
 name: ando
-description: Use Ando hosted MCP tools to read and write workspace Conversations, Messages, Members, Documents, Calls/Jams, and Tasks. Use immediately after Ando MCP connects, authenticates, or first appears in the session — not only when the user mentions Ando. Also use when the user mentions Ando, workspace chat, channels, threads, DMs, Jams, documents, or tasks, or asks to search/send/reply in team messaging. After connect, call get_workspace_info first (accept get_workspace_orientation if present as an alias), then get_agent_inbox if pending work is reported. Call the live MCP tools; do not invent IDs, schemas, or API payloads.
+description: Use Ando hosted MCP tools to read and write workspace Conversations, Messages, Members, Documents, Calls/Jams, and Tasks. Use immediately after Ando MCP connects, authenticates, or first appears in the session — not only when the user mentions Ando. Also use when the user mentions Ando, workspace chat, channels, threads, DMs, Jams, documents, or tasks, or asks to search/send/reply in team messaging. After authentication, verify the connected identity and guide human or wrong-agent connections through agent selection before starting agent work. Call the live MCP tools; do not invent IDs, schemas, or API payloads.
 ---
 
 # Ando workspace MCP
@@ -44,13 +44,22 @@ Organize work around Ando workspace objects. Search or list first, then fetch th
 
 ## First turn after connect
 
-When Ando MCP connects, authenticates, or first appears, and the credential is an **installed external agent**:
+Authentication success does not prove that Grokbot is paired with an agent. Run this check after every new connection or reauthentication, even when the user has not asked you to use Ando yet.
 
-1. Call `get_workspace_info` first (no arguments). If the live tool list exposes `get_workspace_orientation` instead or as well, treat that name as an alias for the same first call — do not invent a second tool or payload.
-2. If that result reports pending durable inbox work, call `get_agent_inbox`. Persist any cursor it returns after processing a page. Skip inbox if nothing pending is reported.
-3. Optionally use `list_conversations` (if present) for the lay of the land. Use only tools on the connected server. Do not invent IDs.
+1. Inspect the live tools. Call `get_current_identity` if exposed; otherwise call `get_current_principal` if exposed. Read `identity.identity_type` or `principal.principal_type`, the workspace ID, and the membership ID/name. If neither verifier is available, say identity is unverified and ask the user to refresh/reconnect the MCP session; do not claim setup succeeded.
+2. If the result is `user`, explain: “Ando sign-in worked, but this connection acts as [person]. Choose the agent Grokbot should use to finish setup.” Follow **Choose an agent** below. If the user explicitly wants to act as themselves, respect that choice, explain authorship, and skip the agent-only inbox/setup flow.
+3. If the result is `agent`, compare the workspace and agent membership with the user's intended selection when known. If they differ, follow **Choose an agent**; do not silently use the wrong identity. If the intended selection is unknown, name the verified agent and workspace so the user can correct it. Do not force an already correct agent through pairing again.
+4. For the verified agent connection, call `get_workspace_info` (or `get_workspace_orientation` only if that alias is exposed) and confirm its workspace matches. Then read pending work with `get_agent_inbox`. Start each new sweep without a cursor and follow `has_more`, including empty pages; cursors continue the current sweep, not future polls. Use the returned message-reading guide for full context.
 
-Do not look for Gateway tools (`list_connections`, `list_tools`, `get_tool_schemas`, `execute_tools`); those are not part of this external MCP. Call `get_current_identity` before writing when you need to confirm the identity that will author the change.
+### Choose an agent
+
+- Direct the user to **Ando → Studio → Agents**, select the agent Grokbot should use, and open its Grokbot Cloud connection setup. If no agent exists, let the user choose to create one there; do not silently create a duplicate or pick the first directory entry.
+- Use the intended workspace; if the current connection is in the wrong workspace, ask for the intended workspace URL rather than linking back to the wrong one. When a workspace slug is returned by `get_current_principal` (`principal.workspace_slug`) or provided in a verified Ando workspace URL, offer the direct link `https://app.ando.so/<workspace-slug>/pair?method=cloud&harness=grokbot&client=grok_bot`. URL-encode the slug as one path segment. Do not derive a slug from the workspace name or substitute a workspace UUID. If the slug is unavailable, use the Studio navigation above.
+- Have the user copy the **Grok Bot setup prompt / exact OAuth MCP URL** from that page and add that connection in Grokbot. If the client exposes a supported MCP configuration tool, use it within the user's authorization; otherwise guide them through the client settings. Preserve other connections. Reuse a configured server only if its URL matches the supplied pairing URL exactly; otherwise add a distinct entry. Never replace the scoped URL with `https://mcp.ando.so/mcp`, discard its path/host, or reuse a stale generic OAuth grant.
+- Start OAuth for that scoped connection. On Ando's approval screen, the user chooses **Pair an existing agent** and selects the intended agent, or explicitly chooses to create one. Pause for their approval. If there is no agent choice, stop and return to the current pairing page; repeating generic-plugin authentication will not supply the missing pairing context. Expired pairing URLs need a fresh setup prompt from Ando.
+- After approval, discover tools on the **newly paired connection** and rerun the identity check. Confirm `agent`, the intended workspace, and selected membership before reporting that Grokbot is paired. A successful browser callback, a display-name match alone, or tools from the old human connection are not proof. If tools need a new session to appear, explain that and resume verification there.
+
+Do not look for Gateway tools (`list_connections`, `list_tools`, `get_tool_schemas`, `execute_tools`) on the Ando external MCP server. They are not part of this service.
 
 ### Useful first reply
 
