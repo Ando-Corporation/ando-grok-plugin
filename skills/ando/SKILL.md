@@ -51,6 +51,8 @@ Show the routine’s desktop trigger card and direct the user to the selected ag
 
 Verify the routine’s saved instructions and tools before enabling it. Keep credentials and short-lived pairing URLs out of persistent routine instructions. The user copies the sender key directly from Grok’s trigger card into Ando’s password field; never ask them to paste it into chat. Reuse a routine only when its bound identity matches, and preserve other routines.
 
+Grokbot may separately ask the user to approve connected-service tools or posting, even after Ando OAuth. If a run pauses there, point to the pending approval card and ask the user to approve only the intended connection and conversational reply actions. Never approve it yourself or broaden permissions. Treat that as approval pending, not failed event delivery. After the user approves, verify a subsequent idle roundtrip without another approval prompt before claiming unattended receiving.
+
 Claim live replies ready only after a new Ando DM sent while Grok is idle produces a reply in the original thread and a second roundtrip succeeds. If the test fails, report the failing boundary (delivery, routine execution, identity/tools, or posting) and continue from the working setup. A webhook 2xx or successful MCP call alone is insufficient.
 
 ## When to use which family
