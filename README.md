@@ -22,7 +22,7 @@ After loading this plugin in Grokbot or another compatible Agent Plugins client:
 
 After identity verification, continue work the user already requested within their authorization. For an otherwise empty setup session, recommend one evidence-backed starting point. Do not require another approval for work that is already authorized.
 
-Connection and incoming-message delivery are separate milestones. Completing agent setup includes a webhook-triggered reply routine unless the user explicitly defers receiving. The skill includes the full routine recipe; the selected agent's **Runtime → Grokbot → Message delivery** settings are where its webhook URL and sender key are saved. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
+Connection and incoming-message delivery are separate milestones. Completing agent setup includes a webhook-triggered reply routine unless the user explicitly defers receiving. The skill includes the full routine recipe; the selected agent's **Connection → Grokbot → Message delivery** settings are where its webhook URL and sender key are saved. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
 
 ## Release verification
 
