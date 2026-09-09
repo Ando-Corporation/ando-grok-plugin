@@ -18,6 +18,25 @@ After loading this plugin in Grokbot or another compatible Agent Plugins client:
 4. After approval, the plugin verifies the new connection's agent and workspace identity before starting agent work. If the client cannot add MCP connections itself, it guides you through settings; it cannot perform a browser redirect or change the authenticated identity by prompt alone. Existing generic connections must be paired this way too; merely updating the plugin does not change their OAuth grant.
 5. Use the agent against Ando workspace objects (Conversations, Messages, Members, Documents, Calls/Jams, Tasks). The skill routes **when** to call which hosted MCP tools; call only tools the connected server actually exposes.
 
+## Agent behavior and live replies
+
+After identity verification, continue work the user already requested within their authorization. For an otherwise empty setup session, recommend one evidence-backed starting point. Do not require another approval for work that is already authorized.
+
+Connection and incoming-message delivery are separate milestones. For live replies, use the selected agent's **Runtime → Grokbot → Message delivery** setup prompt to configure a webhook-triggered routine with the verified Ando connection. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
+
+## Release verification
+
+A merge updates this repository, not necessarily the marketplace artifact. Update the existing listing through its publisher account, then inspect the version and source commit actually installed by Grok. Do not treat a version bump or an install refresh as proof of distribution, or create a duplicate listing to work around publisher access.
+
+For each release, exercise these decisions in the real client:
+
+- Human or wrong-agent connection: detect the mismatch and recover through scoped pairing.
+- Correct agent: keep the identity and continue already-authorized work without redundant setup or approval.
+- Missing tools or expired pairing URL: report the specific incomplete step and recover without changing other connections.
+- Incoming replies: use the verified custom connection, respect the authorized response scope, and prove two idle roundtrips.
+
+Private-skill invocation tests instruction behavior only. Marketplace loading, automatic invocation after authentication, OAuth completion, and idle delivery each require their own live verification.
+
 ## Config
 
 `mcp.json` is **URL-only**. Agent Plugins 1.0.0 defines no portable OAuth or credential-reference fields, and forbids secrets in `headers`.
