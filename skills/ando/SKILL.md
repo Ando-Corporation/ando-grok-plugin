@@ -55,7 +55,7 @@ Verify the routine’s saved instructions and tools before enabling it. Keep cre
 
 Grokbot may separately ask the user to approve connected-service tools or posting, even after Ando OAuth. If a run pauses there, point to the pending approval card and ask the user to approve only the intended connection and conversational reply actions. Never approve it yourself or broaden permissions. Treat that as approval pending, not failed event delivery. After the user approves, verify a subsequent idle roundtrip without another approval prompt before claiming unattended receiving.
 
-A created routine alone means **Routine created; incoming delivery not yet connected**. Use **configured but unverified** only after both the routine and matching Ando destination are saved and verified.
+A created routine alone means **Routine created; incoming delivery not configured**. Use **configured but unverified** only after both the routine and matching Ando destination are saved and their binding is checked by readback.
 
 Claim live replies ready only after a new Ando DM sent while Grok is idle produces a reply in the original thread and a second roundtrip succeeds. If the test fails, report the failing boundary (delivery, routine execution, identity/tools, or posting) and continue from the working setup. A webhook 2xx or successful MCP call alone is insufficient.
 
