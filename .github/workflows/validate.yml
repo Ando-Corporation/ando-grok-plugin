@@ -1,0 +1,18 @@
+name: Validate plugin
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - name: Validate manifests and skill structure
+        run: python3 scripts/validate-plugin.py
+      - name: Check whitespace
+        run: git show --format= --check HEAD
