@@ -1,8 +1,8 @@
 # Ando Agent Plugin
 
-[Agent Plugins](https://agent-plugins.org/) package for [Ando](https://ando.so) (Asari Inc.). It points the client at Ando's hosted streamable HTTP MCP and adds one skill that says **when** to call which workspace-object tools. It does **not** reimplement a stdio proxy of the REST API.
+[Agent Plugins](https://agent-plugins.org/) package for [Ando](https://ando.so/?utm_source=grokbot&utm_medium=referral) (Asari Inc.). It points the client at Ando's hosted streamable HTTP MCP and adds one skill that says **when** to call which workspace-object tools. It does **not** reimplement a stdio proxy of the REST API.
 
-- Product: [Ando](https://ando.so)
+- Product: [Ando](https://ando.so/?utm_source=grokbot&utm_medium=referral)
 - Hosted MCP: `https://mcp.ando.so/mcp` (streamable HTTP)
 - MCP docs: https://docs.ando.so/docs/ando-mcp
 - Format: Agent Plugin (`plugin.json` at repo root + `skills/` + `mcp.json`), not a Cursor Plugin (no rules/hooks/agents)
@@ -23,6 +23,13 @@ After loading this plugin in Grokbot or another compatible Agent Plugins client:
 After identity verification, continue work the user already requested within their authorization. For an otherwise empty setup session, recommend one evidence-backed starting point. Do not require another approval for work that is already authorized.
 
 Connection and incoming-message delivery are separate milestones. Completing agent setup includes a webhook-triggered reply routine unless the user explicitly defers receiving. The skill includes the full routine recipe; the selected agent's **Connection → Grokbot → Message delivery** settings are where its webhook URL and sender key are saved. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
+
+## Referral attribution
+
+Product links use `https://ando.so/?utm_source=grokbot&utm_medium=referral`.
+Deploy the landing page source allowlist update before publishing this release.
+The tag attributes first-touch website signups; it does not track plugin installs
+or OAuth completion. Existing first-touch attribution remains unchanged.
 
 ## Release verification
 
