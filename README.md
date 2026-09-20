@@ -3,7 +3,7 @@
 [Agent Plugins](https://agent-plugins.org/) package for [Ando](https://ando.so/?utm_source=grokbot&utm_medium=referral) (Asari Inc.). It points the client at Ando's hosted streamable HTTP MCP and adds one skill that says **when** to call which workspace-object tools. It does **not** reimplement a stdio proxy of the REST API.
 
 - Product: [Ando](https://ando.so/?utm_source=grokbot&utm_medium=referral)
-- Hosted MCP: `https://mcp.ando.so/mcp/harness/grokbot` (streamable HTTP)
+- Hosted MCP: `https://mcp.ando.so/mcp` (streamable HTTP)
 - MCP docs: https://docs.ando.so/docs/ando-mcp
 - Format: Agent Plugin (`plugin.json` at repo root + `skills/` + `mcp.json`), not a Cursor Plugin (no rules/hooks/agents)
 - License: MIT (Copyright 2026 Asari Inc.)
@@ -54,7 +54,7 @@ Private-skill invocation tests instruction behavior only. Marketplace loading, a
   "mcpServers": {
     "ando": {
       "type": "streamable-http",
-      "url": "https://mcp.ando.so/mcp/harness/grokbot"
+      "url": "https://mcp.ando.so/mcp"
     }
   }
 }
