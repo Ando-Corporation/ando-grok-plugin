@@ -3,7 +3,7 @@
   "mcpServers": {
     "ando": {
       "type": "streamable-http",
-      "url": "https://mcp.ando.so/mcp/harness/grokbot"
+      "url": "https://mcp.ando.so/mcp"
     }
   }
 }

@@ -19,7 +19,7 @@ require(isinstance(plugin.get('version'), str) and re.fullmatch(r'\d+\.\d+\.\d+'
 require(isinstance(plugin.get('description'), str) and plugin['description'].strip(), 'Description is required')
 require(mcp == {
     '$schema': 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
-    'mcpServers': {'ando': {'type': 'streamable-http', 'url': 'https://mcp.ando.so/mcp/harness/grokbot'}},
+    'mcpServers': {'ando': {'type': 'streamable-http', 'url': 'https://mcp.ando.so/mcp'}},
 }, 'The MCP manifest must remain URL-only with the production HTTPS endpoint')
 
 skills = list((root / 'skills').glob('*/SKILL.md'))
