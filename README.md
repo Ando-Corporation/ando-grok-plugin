@@ -13,16 +13,22 @@
 After loading this plugin in Grokbot or another compatible Agent Plugins client:
 
 1. Confirm the `ando` plugin, skill, and MCP server are enabled.
-2. Complete Ando OAuth when the client prompts. The plugin checks the returned identity: generic OAuth may connect as a person, so authentication alone does not finish agent setup.
-3. For Grokbot agent setup, open **Ando → Studio → Agents**, select the intended agent, and open its **Grokbot Cloud** setup. Copy the Grok Bot setup prompt / exact OAuth MCP URL into Grokbot. During approval, choose **Pair an existing agent** and select that agent (or explicitly create one). Keep the scoped URL intact; the generic plugin URL cannot carry this workspace-specific pairing request.
-4. After approval, the plugin verifies the new connection's agent and workspace identity before starting agent work. If the client cannot add MCP connections itself, it guides you through settings; it cannot perform a browser redirect or change the authenticated identity by prompt alone. Existing generic connections must be paired this way too; merely updating the plugin does not change their OAuth grant.
-5. Use the agent against Ando workspace objects (Conversations, Messages, Members, Documents, Calls/Jams, Tasks). The skill routes **when** to call which hosted MCP tools; call only tools the connected server actually exposes.
+2. Complete Ando OAuth when the client prompts. Verify the acting person or agent and workspace. A person connection is valid for human work; choose an agent only when that is the intended author.
+3. If you want Grokbot to act as an agent, open **Ando → Studio → Agents**, select the intended agent, and open its **Grokbot Cloud** setup. Copy the Grok Bot setup prompt / exact OAuth MCP URL into Grokbot. During approval, choose **Pair an existing agent** and select that agent (or explicitly create one). Keep the scoped URL intact; the generic plugin URL cannot carry this workspace-specific pairing request.
+4. After approval, the plugin verifies the new connection's agent and workspace identity before starting agent work. If the client cannot add MCP connections itself, it guides you through settings; it cannot perform a browser redirect or change the authenticated identity by prompt alone. Existing generic connections intended for agent work must be paired this way too; merely updating the plugin does not change their OAuth grant.
+5. Work as the verified person or agent with permitted Conversations, Messages, Members, Wiki, channel knowledge, Calls/Jams, Tasks, and Files. The skill routes **when** to call which hosted MCP tools; call only tools the connected server actually exposes.
+
+## Catalog compatibility
+
+Existing connections keep their legacy catalog and argument shapes, including `send_message`, `reply_to_message`, and `send_direct_message`. This instruction update does not change `mcp.json`, OAuth registrations, grants, or saved reply routines. Compact preview activation and migration are deferred; a package update does not opt anyone in.
+
+The skill uses the connected server's current schemas. Its [compact reference](skills/ando/references/compact-routing.md) applies only to a separately opted-in connection that actually reports `compact-v1`; it does not provide an activation path. After a requested identity or connection change, refresh tools and verify the stable workspace/membership IDs, then discard old schemas and prepared writes before resuming. A new chat alone does not change the author.
 
 ## Agent behavior and live replies
 
 After identity verification, continue work the user already requested within their authorization. For an otherwise empty setup session, recommend one evidence-backed starting point. Do not require another approval for work that is already authorized.
 
-Connection and incoming-message delivery are separate milestones. Completing agent setup includes a webhook-triggered reply routine unless the user explicitly defers receiving. The skill includes the full routine recipe; the selected agent's **Connection → Grokbot → Message delivery** settings are where its webhook URL and sender key are saved. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
+Connection and incoming-message delivery are separate milestones. Completing agent setup includes a webhook-triggered reply routine unless the user explicitly defers receiving. The [agent receiving reference](skills/ando/references/agent-receiving.md) includes the full routine recipe; the selected agent's **Connection → Grokbot → Message delivery** settings are where its webhook URL and sender key are saved. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
 
 ## Referral attribution
 
@@ -37,7 +43,8 @@ A merge updates this repository, not necessarily the marketplace artifact. Updat
 
 For each release, exercise these decisions in the real client:
 
-- Human or wrong-agent connection: detect the mismatch and recover through scoped pairing.
+- Human connection: continue authorized human work without agent inbox/setup. If an agent was requested, recover through scoped pairing.
+- Wrong agent or workspace: stop work under the wrong identity and verify the intended selection.
 - Correct agent: keep the identity and continue already-authorized work without redundant setup or approval.
 - Missing tools or expired pairing URL: report the specific incomplete step and recover without changing other connections.
 - Incoming replies: use the verified custom connection, respect the authorized response scope, and prove two idle roundtrips.
@@ -83,7 +90,10 @@ ando-plugin/
 │   └── logo.png
 └── skills/
     └── ando/
-        └── SKILL.md
+        ├── SKILL.md
+        └── references/
+            ├── agent-receiving.md
+            └── compact-routing.md
 ```
 
 ## Marketplace
