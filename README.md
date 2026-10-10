@@ -101,3 +101,8 @@ ando-plugin/
 Public submit flow: https://cursor.com/marketplace/publish  
 Publisher terms: https://cursor.com/marketplace-publisher-terms  
 Template (Cursor Plugin multi-plugin layout; this package is a single Agent Plugin): https://github.com/cursor/plugin-template
+
+Version 0.1.5 adds compact discovery examples and recovery/pagination guidance.
+It supports legacy, human-v1 and compact-v1 using live declarations; enhanced
+`mcp-usability-v1` diagnostics and continuations are optional and retain older-server
+fallbacks. Publication and installed-host readback are required separately.
