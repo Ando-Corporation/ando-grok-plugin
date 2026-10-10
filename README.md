@@ -20,9 +20,9 @@ After loading this plugin in Grokbot or another compatible Agent Plugins client:
 
 ## Catalog compatibility
 
-Existing connections keep their legacy catalog and argument shapes, including `send_message`, `reply_to_message`, and `send_direct_message`. This instruction update does not change `mcp.json`, OAuth registrations, grants, or saved reply routines. Compact preview activation and migration are deferred; a package update does not opt anyone in.
+Existing connections keep their legacy catalog and argument shapes, including `send_message`, `reply_to_message`, and `send_direct_message`. This instruction update does not change `mcp.json`, OAuth registrations, grants, or saved reply routines. Preview activation and migration are deferred; a package update does not opt anyone in.
 
-The skill uses the connected server's current schemas. Its [compact reference](skills/ando/references/compact-routing.md) applies only to a separately opted-in connection that actually reports `compact-v1`; it does not provide an activation path. After a requested identity or connection change, refresh tools and verify the stable workspace/membership IDs, then discard old schemas and prepared writes before resuming. A new chat alone does not change the author.
+The skill uses the connected server's current schemas. Its [compact reference](skills/ando/references/compact-routing.md) covers separately opted-in `human-v1` and `compact-v1` connections using their live schemas and overview; it does not provide an activation path. After a requested identity or connection change, refresh tools and verify the stable workspace/membership IDs, then discard old schemas and prepared writes before resuming. A new chat alone does not change the author.
 
 ## Agent behavior and live replies
 
