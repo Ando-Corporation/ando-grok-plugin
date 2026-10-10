@@ -34,3 +34,13 @@ Optional domains are default-off and selected by reviewed server-side client pol
 - **Human-only domains:** `read_agents` and `manage_agent` administer agents within the person's permissions and do not switch this connection's author. `read_notification_settings` and `update_notification_settings` concern human preferences. Agents use their own receiving/subscription tools instead.
 
 Unknown fields must be corrected against the live schema before execution. Refresh and reprepare after schema changes; do not replay a pending write blindly. Preserve denial reasons, revisions, idempotency, file custody and call-time permissions. Never retry unchanged denials, turn an intended read into a write, or assume a read-sounding external provider tool has no effects. On an upstream dependency failure, retry once after a short pause, then report persistent failure; do not repeat a call still running.
+
+## Find names, correct arguments, and finish
+
+Read the full tool declaration, not only a truncated discovery summary. For `compact-v1` name lookup, use `list_members({"request":{"kind":"workspace","query":"Chief Approval"}})` and `list_conversations({"request":{"kind":"list","q":"pr-approvals"}})`, replacing names with the requested target. Do not assume a separate search mode exists. Use `conversation_kind` only when it appears in the live schema.
+
+An invalid-mode error should be corrected using its supported modes. Correct unknown fields using the full schema; refresh only when that schema disagrees with the server. Reconnect only for authentication or identity recovery. After a read succeeds, resume the original authorized task. Finding a recipient is not completion of a requested send. Message bodies use `markdown_content` where required by the declaration.
+
+Follow returned `next_page.tool` and `next_page.arguments`, even on an empty page. Older servers may expose only their existing cursor envelope: preserve all filters and follow it to exhaustion. A Jam query failure means results are unavailable, not that no Jams exist. Report partial coverage when continuation is unavailable.
+
+Plugin version, server revision, and catalog version are distinct. When available, read the overview's `server_revision`, `catalog_fingerprint`, `supported_modes` and unavailable-capability reasons. A null server revision is unknown. Compare the server catalog with this host's full declarations; the host may expose a subset. The canonical task guide is https://docs.ando.so/docs/ando-mcp#complete-a-task-with-the-current-catalog.
