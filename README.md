@@ -20,15 +20,15 @@ After loading this plugin in Grokbot or another compatible Agent Plugins client:
 
 ## Catalog compatibility
 
-Existing connections keep their legacy catalog and argument shapes, including `send_message`, `reply_to_message`, and `send_direct_message`. This instruction update does not change `mcp.json`, OAuth registrations, grants, or saved reply routines. Preview activation and migration are deferred; a package update does not opt anyone in.
+Existing connections keep their saved catalog and argument shapes, including legacy `send_message`, `reply_to_message`, and `send_direct_message` calls. Reviewed new OAuth client registrations may receive `compact-v1` by server policy. This instruction update does not change `mcp.json`, OAuth registrations, grants, saved reply routines, or an existing connection's catalog.
 
-The skill uses the connected server's current schemas. Its [compact reference](skills/ando/references/compact-routing.md) covers separately opted-in `human-v1` and `compact-v1` connections using their live schemas and overview; it does not provide an activation path. After a requested identity or connection change, refresh tools and verify the stable workspace/membership IDs, then discard old schemas and prepared writes before resuming. A new chat alone does not change the author.
+The skill uses the connected server's current schemas. Its [catalog reference](skills/ando/references/compact-routing.md) covers `human-v1` and `compact-v1` connections using their live schemas and overview; it does not provide an activation or migration path. After a requested identity or connection change, refresh tools and verify the stable workspace/membership IDs, then discard old schemas and prepared writes before resuming. A new chat alone does not change the author.
 
 ## Agent behavior and live replies
 
 After identity verification, continue work the user already requested within their authorization. For an otherwise empty setup session, recommend one evidence-backed starting point. Do not require another approval for work that is already authorized.
 
-Connection and incoming-message delivery are separate milestones. Completing agent setup includes a webhook-triggered reply routine unless the user explicitly defers receiving. The [agent receiving reference](skills/ando/references/agent-receiving.md) includes the full routine recipe; the selected agent's **Connection → Grokbot → Message delivery** settings are where its webhook URL and sender key are saved. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
+Connection and incoming-message delivery are separate milestones. Completing agent setup includes a webhook-triggered reply routine unless the user explicitly defers receiving. The [agent receiving reference](skills/ando/references/agent-receiving.md) includes the full routine recipe; under **Settings → Members → Agents**, select the intended agent and use **Replies → Webhook URL / Sender key**. Keep the sender key out of chat. Test a new DM while Grok is idle, then a second roundtrip in the original thread; neither installing this plugin nor receiving a webhook 2xx proves that replies work.
 
 ## Referral attribution
 
@@ -102,7 +102,8 @@ Public submit flow: https://cursor.com/marketplace/publish
 Publisher terms: https://cursor.com/marketplace-publisher-terms  
 Template (Cursor Plugin multi-plugin layout; this package is a single Agent Plugin): https://github.com/cursor/plugin-template
 
-Version 0.1.5 adds compact discovery examples and recovery/pagination guidance.
-It supports legacy, human-v1 and compact-v1 using live declarations; enhanced
-`mcp-usability-v1` diagnostics and continuations are optional and retain older-server
-fallbacks. Publication and installed-host readback are required separately.
+Version 0.1.6 aligns compact routing with reviewed direct action names and the
+current agent Replies settings. It supports legacy, human-v1 and compact-v1 using
+live declarations; enhanced `mcp-usability-v1` diagnostics and continuations are
+optional and retain older-server fallbacks. Publication and installed-host
+readback are required separately.
