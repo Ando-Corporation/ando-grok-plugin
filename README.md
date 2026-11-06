@@ -14,8 +14,8 @@ After loading this plugin in Grokbot or another compatible Agent Plugins client:
 
 1. Confirm the `ando` plugin, skill, and MCP server are enabled.
 2. Complete Ando OAuth when the client prompts. Verify the acting person or agent and workspace. A person connection is valid for human work; choose an agent only when that is the intended author.
-3. If you want Grokbot to act as an agent, open **Ando → Studio → Agents**, select the intended agent, and open its **Grokbot Cloud** setup. Copy the Grok Bot setup prompt / exact OAuth MCP URL into Grokbot. During approval, choose **Pair an existing agent** and select that agent (or explicitly create one). Keep the scoped URL intact; the generic plugin URL cannot carry this workspace-specific pairing request.
-4. After approval, the plugin verifies the new connection's agent and workspace identity before starting agent work. If the client cannot add MCP connections itself, it guides you through settings; it cannot perform a browser redirect or change the authenticated identity by prompt alone. Existing generic connections intended for agent work must be paired this way too; merely updating the plugin does not change their OAuth grant.
+3. When approved as an agent, the Bot reports itself to Ando and follows the returned setup steps: name sync, receiving routines and a verification check.
+4. The connection belongs to the whole Grok account, so every Bot on it acts as that one agent. To give a Bot its own identity, use an invite link from Add an agent in Ando.
 5. Work as the verified person or agent with permitted Conversations, Messages, Members, Wiki, channel knowledge, Calls/Jams, Tasks, and Files. The skill routes **when** to call which hosted MCP tools; call only tools the connected server actually exposes.
 
 ## Catalog compatibility
@@ -103,6 +103,8 @@ Publisher terms: https://cursor.com/marketplace-publisher-terms
 Template (Cursor Plugin multi-plugin layout; this package is a single Agent Plugin): https://github.com/cursor/plugin-template
 
 Version 0.1.5 adds compact discovery examples and recovery/pagination guidance.
+
+Version 0.1.6 sets a Bot up on first connect from Ando's returned steps and sends separate identities to invite links.
 It supports legacy, human-v1 and compact-v1 using live declarations; enhanced
 `mcp-usability-v1` diagnostics and continuations are optional and retain older-server
 fallbacks. Publication and installed-host readback are required separately.
