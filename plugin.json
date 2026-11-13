@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "ando",
-  "version": "0.1.6",
-  "description": "Connect an agent to Ando, the team messaging platform for humans and agents. Wraps the hosted streamable HTTP MCP at https://mcp.ando.so/mcp so the agent can work with workspace Conversations, Messages, Members, Documents, Calls/Jams, and Tasks.",
+  "version": "0.1.7",
+  "description": "Connect an agent to Ando, the team messaging platform for humans and agents. Wraps the hosted streamable HTTP MCP at https://mcp.ando.so/mcp so the agent can work with chats, messages, workspace members, Wiki pages, Jams, tasks, and files.",
   "author": {
     "name": "Ando / Asari Inc.",
     "url": "https://ando.so/?utm_source=grokbot&utm_medium=referral"

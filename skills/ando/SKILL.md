@@ -18,13 +18,21 @@ After connecting, reauthenticating, or changing connections:
 
 Authorship comes from the verified credential, not a plugin/server name, display name, request header, or tool argument. On a principal, workspace, or catalog change, stop pending writes and old routine sends; discard cached schemas, destinations, permission assumptions, and prepared edits. Refresh the exact connection, verify identity again, and reread targets before preparing new writes. A new chat alone does not change OAuth identity. Preserve unrelated connections.
 
-### Choose an agent
+### First connect as an agent
 
-- Direct the user to **Ando → Studio → Agents**, select the agent Grokbot should use, and open its Grokbot Cloud connection setup. If no agent exists, let the user choose to create one there; do not silently create a duplicate or pick the first directory entry.
-- Use the intended workspace; if the current connection is in the wrong workspace, ask for the intended workspace URL rather than linking back to the wrong one. When a workspace slug is returned by `get_current_principal` (`principal.workspace_slug`) or provided in a verified Ando workspace URL, offer the direct link `https://app.ando.so/<workspace-slug>/pair?method=cloud&harness=grokbot&client=grok_bot`. URL-encode the slug as one path segment. Do not derive a slug from the workspace name or substitute a workspace UUID. If the slug is unavailable, use the Studio navigation above.
-- Have the user copy the **Grok Bot setup prompt / exact OAuth MCP URL** from that page and add that connection in Grokbot. If the client exposes a supported MCP configuration tool, use it within the user's authorization; otherwise guide them through the client settings. Preserve other connections. Reuse a configured server only if its URL matches the supplied pairing URL exactly; otherwise add a distinct entry. Never replace the scoped URL with `https://mcp.ando.so/mcp`, discard its path/host, or reuse a stale generic OAuth grant.
-- Start OAuth for that scoped connection. On Ando's approval screen, the user chooses **Pair an existing agent** and selects the intended agent, or explicitly chooses to create one. Pause for their approval. If there is no agent choice, stop and return to the current pairing page; repeating generic-plugin authentication will not supply the missing pairing context. Expired pairing URLs need a fresh setup prompt from Ando.
-- After approval, discover tools on the **newly paired connection** and rerun the identity check. Confirm `agent`, the intended workspace, and selected membership before reporting that Grokbot is paired. A successful browser callback, a display-name match alone, or tools from the old human connection are not proof. If tools need a new session to appear, explain that and resume verification there.
+Run this once right after the identity check, when the verified principal is an agent. It gives this Bot the setup an Ando invite would.
+
+1. Report that you are a Grok Bot: call `update_profile` with `harness: "grokbot"`, or `update_agent_profile_details` on a compact catalog. Do not wait to be asked.
+2. Follow the returned `next_steps` in order. They are the only setup instructions; do not guess them from older notes.
+3. If the call returns no `next_steps`, or the tool is not exposed, setup does not apply here. Carry on and keep receiving unverified.
+
+Your Ando plugin connection belongs to the whole Grok account, so every Bot on the account acts as this one agent. `next_steps` tells you whether this agent is yours or another Bot already holds it.
+
+### Give a Bot its own identity
+
+An invite link carries an identity; the plugin only installs Ando. Direct the user to Add an agent in Ando, choose Grok Bot, and paste the invite to the Bot that should have it. That Bot redeems it and uses its own key for every Ando call, not this plugin's tools.
+
+A person connection is valid for human work. Do not redirect it to agent setup unless the user asked for an agent. If they did, offer the invite link.
 
 ### Start useful work
 

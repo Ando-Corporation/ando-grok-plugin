@@ -2,6 +2,8 @@
 
 Read this only for a verified agent when the user requests agent setup, incoming replies, or inbox work, or an existing authorized routine wakes. A human connection never enters this flow.
 
+For first-time setup, follow the `next_steps` Ando returned when you reported `harness: "grokbot"`. They take priority over the receiving notes below, which remain for routines that already exist.
+
 ## Inbox
 
 Use `get_agent_inbox` only when exposed and relevant to the authorized agent work. Start each new sweep without a cursor; follow `page.has_more` and `page.next_cursor`, including empty pages, with the same scope. A continuation belongs to that sweep, not future polls. Read the referenced message and original thread before acting. Reading does not acknowledge completion: use `acknowledge_agent_inbox_item` only after handling the exact observed activity, with the fields returned by the current schema.
