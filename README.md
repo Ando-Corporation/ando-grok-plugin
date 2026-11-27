@@ -98,8 +98,10 @@ ando-plugin/
 
 ## Marketplace
 
-Public submit flow: https://cursor.com/marketplace/publish  
-Publisher terms: https://cursor.com/marketplace-publisher-terms  
+Public submit flow: https://cursor.com/marketplace/publish
+
+Publisher terms: https://cursor.com/marketplace-publisher-terms
+
 Template (Cursor Plugin multi-plugin layout; this package is a single Agent Plugin): https://github.com/cursor/plugin-template
 
 Version 0.1.7 sets a Bot up on first connect from Ando's returned steps, sends
