@@ -38,6 +38,10 @@ for skill in skills:
     require(bool(fields.get('description')), f'{skill}: description is required')
 
 compact_routing = (root / 'skills/ando/references/compact-routing.md').read_text()
+require(
+    '`send_message` uses `conversation`, `thread`, or `direct`' in compact_routing,
+    'compact-routing.md: send_message modes must match the live compact schema',
+)
 for tool_name in (
     'list_chats',
     'read_chat',

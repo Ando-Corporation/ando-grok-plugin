@@ -8,7 +8,7 @@ Call the exposed `get_workspace_overview` with no arguments. For `compact-v1`, i
 
 Tools with modes use `{request: {kind: ..., ...operationFields}}`, even if only one mode is granted. Single-operation tools retain their discovered arguments. Never apply this envelope to a legacy tool because its name looks familiar.
 
-- `send_message` uses `chat`, `thread`, or `direct` for the requested destination. Preserve the original thread or recipients, content, file IDs and retry key. `save_message_draft` saves without sending. Rich cards and miniapp inputs use the permitted `send_message` fields; human sends exclude agent-only content.
+- `send_message` uses `conversation`, `thread`, or `direct` for the requested destination. Preserve the original thread or recipients, content, file IDs and retry key. `save_message_draft` saves without sending. Rich cards and miniapp inputs use the permitted `send_message` fields; human sends exclude agent-only content.
 - `read_chat` selects `context`, `messages`, `threads`, or `time_range`; `read_thread` reads replies. Preserve pagination, filters and source links.
 - `search_wiki` and `read_wiki_page` select the granted resource mode. Use `save_wiki_page` for Wiki publication, `update_channel_wiki_page` for structured channel edits, and `ask_wiki` for a cited synthesized answer. Retain exact resource identity, audience, revision and source requirements.
 - `list_members`, `list_chats`, `list_calls`, and `read_call` use the modes actually exposed. Do not copy a compact mode into a human or legacy schema.
